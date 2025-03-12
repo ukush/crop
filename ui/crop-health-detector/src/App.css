@@ -1,0 +1,137 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.upload:hover {
+  background-color: #3e8e41; /* Darker green on hover */
+}
+
+.upload::-webkit-file-upload-button {
+  visibility: hidden; /* Hide default file upload button */
+}
+
+.upload::before {
+  content: 'Choose File'; /* Custom text */
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 400;
+  font-size: 10pt;
+}
+
+.upload:hover::before {
+  border-color: black;
+}
+
+.upload:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+button[type="button"] {
+  padding: 12px 25px;
+  background-color: #008CBA; /* Blue background */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+button[type="button"]:hover {
+  background-color: #0077A3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+button[type="button"]:active {
+  background-color: #00668F; /* Even darker blue on active */
+  transform: translateY(0); /* Reset transform on active */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow on active */
+}
+
+.image-container {
+  width: 350px; /* Or whatever fixed width you want */
+  height: 400px; /* Or whatever fixed height you want */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 20px 0;
+  overflow: hidden; /* Crucial for controlling image overflow */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.prediction-result {
+  width: 250px;
+  height: 50px;
+  font-size: 22px;
+}
