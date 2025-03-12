@@ -1,2 +1,5 @@
 api\trained_models\best_covnet_model_augmented.keras
 api\trained_models\best_covnet_model_weighted.keras
+api\__pycache__
+ui\node_modules
+ui\package-lock.json

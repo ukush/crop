@@ -116,7 +116,7 @@ button[type="button"]:active {
 }
 
 .image-container {
-  width: 350px; /* Or whatever fixed width you want */
+  width: 400px; /* Or whatever fixed width you want */
   height: 400px; /* Or whatever fixed height you want */
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -125,8 +125,6 @@ button[type="button"]:active {
 }
 
 .image-container img {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
 }
 
