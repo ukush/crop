@@ -8,7 +8,7 @@ import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 
 # Load the trained model
-model_path = "trained_models/best_covnet_model_augmented.keras"
+model_path = "trained_models/best_covnet_model_weighted.keras"
 model = tf.keras.models.load_model(model_path)
 
 # Initialize FastAPI
