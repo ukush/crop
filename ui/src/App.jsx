@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import React from "react";
 import './App.css';
 import Webcam from 'react-webcam';
@@ -11,13 +11,29 @@ function App() {
   const [showWebcam, setShowWebcam] = useState(false);
   const [isWebcamReady, setIsWebcamReady] = useState(false); // Track if webcam is ready
   const [isPreview, setIsPreview] = useState(false); // Track if preview is shown
+  const [cameraFacingMode, setCameraFacingMode] = useState("environment"); // Default to rear camera
   const webcamRef = useRef(null);
+  const [videoDevices, setVideoDevices] = useState([]);
+  const [selectedCamera, setSelectedCamera] = useState(null);
 
   const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: "user"
+    facingMode: cameraFacingMode // Dynamically set facing mode
   };
+
+  useEffect(() => {
+    // Detect available video devices (cameras)
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      setVideoDevices(videoDevices);
+      
+      // Set the default camera (usually the rear camera for mobile)
+      if (videoDevices.length > 0) {
+        setSelectedCamera(videoDevices[0]);
+      }
+    });
+  }, []);
 
   // When the webcam is ready, update the state
   const onWebcamLoaded = () => {
@@ -28,7 +44,7 @@ function App() {
      setPredictionColour('');
      const predictionDiv = document.getElementById('prediction-result');
      predictionDiv.innerText = '';
-  }
+  };
 
   const capture = useCallback(() => {
     if (webcamRef.current && isWebcamReady) {  // Ensure webcam is ready before capturing
@@ -41,7 +57,7 @@ function App() {
       setIsPreview(true); // Set preview state to true
       setShowWebcam(false);
     }
-  }, [isWebcamReady]); // Dependency on isWebcamReady to trigger re-render
+  }, [isWebcamReady]);
 
   const appendScreenshotToForm = (base64Image) => {
     const byteString = atob(base64Image.split(',')[1]);
@@ -105,18 +121,14 @@ function App() {
     const form = document.getElementById('prediction-form');
     const formData = new FormData(form);
 
-    // Ensure the file input is being appended to the FormData correctly
     const fileInput = document.getElementById('file');
     if (screenshot) {
-      // If screenshot is available, append the captured file to FormData
       const blob = dataURLtoBlob(screenshot);
       formData.append('file', blob, 'captured.jpg');
     } else if (uploadedImage) {
-      // If uploaded image is available, append the uploaded file to FormData
       const blob = dataURLtoBlob(uploadedImage);
       formData.append('file', blob, 'uploaded.jpg');
     } else if (fileInput.files[0]) {
-      // If the user uploaded a file directly
       formData.append('file', fileInput.files[0]);
     }
 
@@ -127,8 +139,6 @@ function App() {
 
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
-
       const prediction = result.predicted_class;
       const confidence = calConfidence(result.confidence);
 
@@ -175,20 +185,29 @@ function App() {
 
         {showWebcam && (
           <>
+            <div>
+              {/* Camera selector for front/back camera */}
+              {videoDevices.length > 1 && (
+                <select onChange={(e) => setCameraFacingMode(e.target.value)} value={cameraFacingMode}>
+                  <option value="environment">Back Camera</option>
+                  <option value="user">Front Camera</option>
+                </select>
+              )}
+            </div>
+
             <Webcam
               audio={false}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
-              width={1280}
-              height={720}
+              width="100%"  // Ensure full width
+              height="auto" // Maintain aspect ratio
               videoConstraints={videoConstraints}
-              onUserMedia={onWebcamLoaded}  // Trigger when webcam is ready
+              onUserMedia={onWebcamLoaded}
             />
             <button type="button" onClick={capture}>Take Screenshot</button>
           </>
         )}
 
-        {/* Display image preview after capturing/uploading */}
         {(screenshot || uploadedImage) && (
           <>
             <img
@@ -196,6 +215,10 @@ function App() {
               className="image-container"
               src={screenshot || uploadedImage}
               alt="Uploaded or Captured"
+              style={{
+                width: '100%',  // Ensure full width
+                height: 'auto', // Maintain aspect ratio
+              }}
             />
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               <button type="button" onClick={startAnalysis}>Analyse</button>
