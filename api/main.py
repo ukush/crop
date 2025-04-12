@@ -14,7 +14,10 @@ model = tf.keras.models.load_model(model_path)
 # Initialize FastAPI
 app = FastAPI()
 
-origins = [*]
+origins = [
+    'http://localhost',
+    "http://localhost:5173",
+]
 
 app.add_middleware(
     CORSMiddleware,
