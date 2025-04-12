@@ -1,6 +1,6 @@
-fastapi==0.95.0
-tensorflow==2.13.0
-numpy==1.23.4
-Pillow==9.2.0
-uvicorn==0.22.0
-python-dotenv==0.21.0
+fastapi
+tensorflow
+numpy
+Pillow
+uvicorn
+python-dotenv
