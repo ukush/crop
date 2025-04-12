@@ -14,10 +14,7 @@ model = tf.keras.models.load_model(model_path)
 # Initialize FastAPI
 app = FastAPI()
 
-origins = [
-    'http://localhost',
-    "http://localhost:5173",
-]
+origins = [*]
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,7 +31,7 @@ async def get():
     return 'message: Welcome to the Plant Disease Detection API!'
 
 # Image prediction route
-@app.post("/predict/")
+@app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     # Read the uploaded image as bytes
     image_bytes = await file.read()
