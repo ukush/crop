@@ -4,3 +4,4 @@ numpy
 Pillow
 uvicorn
 python-dotenv
+python-multipart
